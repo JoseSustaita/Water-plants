@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Signup(props) {
   const [userInput, setUserInput] = useState({ username: "", password: "" });
@@ -37,6 +38,7 @@ export default function Signup(props) {
         />
         <button>Signup</button>
       </form>
+      <Link to="/">{"Back to Login"}</Link>
     </div>
   );
 }
