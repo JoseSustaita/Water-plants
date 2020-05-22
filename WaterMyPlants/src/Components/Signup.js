@@ -23,6 +23,13 @@ export default function Signup(props) {
           onChange={handleChange}
         />
         <input
+          type="text"
+          name="phonenumber"
+          placeholder="Phone Number"
+          value={userInput.password}
+          onChange={handleChange}
+        />
+        <input
           type="password"
           name="password"
           placeholder="Password"
@@ -30,12 +37,13 @@ export default function Signup(props) {
           onChange={handleChange}
         />
         <input
-          type="text"
-          name="phonenumber"
-          placeholder="Phone Number"
+          type="password"
+          name="password"
+          placeholder="Confirm Password"
           value={userInput.password}
           onChange={handleChange}
         />
+
         <button>Signup</button>
       </form>
       <Link to="/">{"Back to Login"}</Link>
