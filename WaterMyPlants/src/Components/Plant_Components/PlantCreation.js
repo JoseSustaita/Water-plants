@@ -39,26 +39,6 @@ const PlantCreation = (props) => {
             onChange ={onChangeHandler}
         />
 
-        <label htmlFor="plantName">Plant Name:</label>
-        <input
-            id = "plantName"
-            type = "text"
-            name = "plantName"
-            placeholder = "Please Enter Your Plant Name:"
-            value = {plants.plantName}
-            onChange ={onChangeHandler}
-        />
-
-        <label htmlFor="plantName">Plant Name:</label>
-        <input
-            id = "plantName"
-            type = "text"
-            name = "plantName"
-            placeholder = "Please Enter Your Plant Name:"
-            value = {plants.plantName}
-            onChange ={onChangeHandler}
-        />
-        
         <label htmlFor="discription">Description:</label>
         <textarea
             id="discription"
