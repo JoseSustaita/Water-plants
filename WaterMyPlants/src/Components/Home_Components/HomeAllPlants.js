@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Plants from "../Plant_Components/Plants";
 
 const AllPlants = () => {
   const [form, setFormState] = useState({});
@@ -56,6 +57,7 @@ const AllPlants = () => {
           alt="baby palm tree"
         />
       </form>
+      <Plants />
     </div>
   );
 };

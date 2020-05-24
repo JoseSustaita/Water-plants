@@ -24,7 +24,6 @@ function App() {
           <Route exact path="/HomeAllPlants" component={HomeAllPlants} />
           <Route exact path="/PlantCreation" component={PlantCreation} />
         </Switch>
-        <Plants />
       </div>
     </Router>
   );
