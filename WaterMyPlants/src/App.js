@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Login from "./Components/Login_Components/Login";
 import Signup from "./Components/Login_Components/Signup";
 import PlantCreation from "./Components/Plant_Components/PlantCreation";
-import Plants from "./Components/Plant_Components/Plants";
 import Home from "./Components/Home_Components/Home";
 import HomeAllPlants from "./Components/Home_Components/HomeAllPlants";
 
