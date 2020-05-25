@@ -1,10 +1,13 @@
 import React, {useState} from "react";
 import Plants from "./Plants";
+/* import styled from "styled-components"; */
 
 const PlantCreation = (props) => {
 
+
   const [plants, setPlant] = useState({
 
+    id: Date.now(),
     plantName: " ",
     species: " ",
     care: " ",
@@ -26,7 +29,7 @@ const PlantCreation = (props) => {
     //To prevent page from reloading all of react content
     event.preventDefault();
     //Adding results of this PlantCreation as input into
-    props.runPlantSetup(plants)
+    props.loadPlants(plants)
   }
 
   console.log(onChangeHandler)

@@ -7,6 +7,7 @@ const Plant = (props) => {
 
         <div>
             <h1> This is a Plant! </h1>
+            <h2>{props.id}</h2>
         </div>
 
     )
