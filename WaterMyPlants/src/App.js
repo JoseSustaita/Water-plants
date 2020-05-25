@@ -8,13 +8,12 @@ import Signup from "./Components/Login_Components/Signup";
 import PlantCreation from "./Components/Plant_Components/PlantCreation";
 import Home from "./Components/Home_Components/Home";
 import HomeAllPlants from "./Components/Home_Components/HomeAllPlants";
+import SearchAppBar from "./Components/Nav_Components/Nav";
 
 function App() {
   return (
     <Router>
-      <nav>
-        <Link to="/HomeAllPlants">Home</Link>
-      </nav>
+      <SearchAppBar />
       <div className="App">
         <Switch>
           <Route exact path="/" component={Home} />
