@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
+    textAlign: "center",
     flexGrow: 1,
     display: "none",
     [theme.breakpoints.up("sm")]: {
@@ -118,7 +119,12 @@ export default function SearchAppBar() {
               </Link>
             </MenuItem>
           </Menu>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Typography
+            className={classes.title}
+            variant="h6"
+            noWrap
+            textAlign="center"
+          >
             Water My Plants!
           </Typography>
           <div className={classes.search}>
