@@ -11,11 +11,11 @@ function App() {
     const [newPlants, setNewPlant] = useState({
 
         id: Date.now(),
-        plantName: " ",
-        species: " ",
-        care: " ",
-        Happiness: " ",
-        discription: " "
+        plantName: " Ficus ",
+        species: " woody trees",
+        care: " 2 weekly ",
+        happiness: " comfortable ",
+        description: " tall slim plant"
 
     });
 
@@ -33,7 +33,7 @@ function App() {
         </Switch>
         {/* How  to pass a funtion on App to a component without using the component */}
         <PlantCreation loadPlants={loadPlants}/>
-        <Plants plants={newPlants}/>
+        <Plants newPlants={newPlants}/>
       </div>
     </Router>
   );

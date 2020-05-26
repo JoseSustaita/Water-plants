@@ -54,7 +54,7 @@ const PlantCreation = (props) => {
                             id = "species"
                             type = "text"
                             name = "species"
-                            placeholder = "Selec or create your plant species"
+                            placeholder = "Select or create your plant species"
                             value = {plants.species}
                             onChange ={onChangeHandler}
                         />
