@@ -30,20 +30,17 @@ function App() {
     }
 
   return (
-<<<<<<< HEAD
-    <Router>
-      <div className="App">
-        <Switch>
-          <Route exact path="/" component={Login} />
-          <Route exact path="/Signup" component={Signup} />
-          <Route exact path="/PlantCreation" component={PlantCreation} />
-        </Switch>
-        {/* How  to pass a funtion on App to a component without using the component */}
-        <PlantCreation loadPlants={loadPlants}/>
-        <Plants newPlants={newPlants}/>
-      </div>
-    </Router>
-=======
+      /* <Router>
+       *   <div className="App">
+       *     <Switch>
+       *       <Route exact path="/" component={Login} />
+       *       <Route exact path="/Signup" component={Signup} />
+       *       <Route exact path="/PlantCreation" component={PlantCreation} />
+       *     </Switch>
+      *     <PlantCreation loadPlants={loadPlants}/>
+      *     <Plants newPlants={newPlants}/>
+      *   </div>
+      * </Router> */
     <ThemeProvider theme={Theme}>
       <Router>
         <SearchAppBar />
@@ -58,7 +55,6 @@ function App() {
         </div>
       </Router>
     </ThemeProvider>
->>>>>>> 54c3514be92d88eeac293ae123f8cd7e0221c9cc
   );
 }
 
