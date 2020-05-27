@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { axiosWithAuth } from "../../Utils/axiosWithAuth";
 import "./Login.css";
 
 function Copyright() {
@@ -54,8 +55,14 @@ export default function Login() {
     setUserInput({ ...userInput, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const login = (e) => {
+    axiosWithAuth()
+      .post("https://preston-plant.herokuapp.com/api/auth/login", userInput)
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("password", res.data.password);
+        this.props.history.push("/HomeAllPlants");
+      });
   };
   console.log(userInput.username);
   return (
@@ -69,7 +76,7 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign in to Water My Plants
           </Typography>
-          <form className={classes.form} noValidate onSubmit={handleSubmit}>
+          <form className={classes.form} noValidate onSubmit={login}>
             <TextField
               variant="outlined"
               margin="normal"

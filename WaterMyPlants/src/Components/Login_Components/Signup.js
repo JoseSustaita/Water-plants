@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import "./Login.css";
+import axios from "axios";
 
 function Copyright() {
   return (
@@ -47,18 +48,32 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Signup() {
   const classes = useStyles();
-  const [userInput, setUserInput] = useState({
+  const [SignUpuserInput, setSignUpuserInput] = useState({
     username: "",
     password: "",
-    phonenumber: "",
+    phoneNumber: "",
   });
 
   const handleChange = (e) => {
-    setUserInput({ ...userInput, [e.target.name]: e.target.value });
+    setSignUpuserInput({ ...SignUpuserInput, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    axios
+      .post(
+        "https://preston-plant.herokuapp.com/api/auth/register",
+        SignUpuserInput
+      )
+      .then((res) => {
+        console.log("res: ", res);
+
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("password", res.data.password);
+        localStorage.setItem("phoneNumber", res.data.phoneNumber);
+        this.props.history.push("/HomeAllPlants");
+      })
+      .catch((err) => console.log("Sign Up Error: ", err));
   };
 
   return (
@@ -83,7 +98,7 @@ export default function Signup() {
               name="username"
               autoComplete="username"
               autoFocus
-              value={userInput.username}
+              value={SignUpuserInput.username}
               onChange={handleChange}
               color="inherit"
             />
@@ -97,7 +112,7 @@ export default function Signup() {
               type="password"
               id="password"
               autoComplete="current-password"
-              value={userInput.password}
+              value={SignUpuserInput.password}
               onChange={handleChange}
               color="inherit"
             />
@@ -106,12 +121,12 @@ export default function Signup() {
               margin="normal"
               required
               fullWidth
-              name="phonenumber"
+              name="phoneNumber"
               label="Phone number"
-              type="phonenumber"
-              id="phonenumber"
+              type="phoneNumber"
+              id="phoneNumber"
               autoComplete="phonenumber"
-              value={userInput.phonenumber}
+              value={SignUpuserInput.phoneNumber}
               onChange={handleChange}
               color="inherit"
             />
