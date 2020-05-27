@@ -1,8 +1,53 @@
 import React, { useState } from "react";
-import { axiosWithAuth } from "../../Utils/axiosWithAuth";
-import { Link } from "react-router-dom";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Link from "@material-ui/core/Link";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import "./Login.css";
 
-const Login = (props) => {
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {"Copyright © "}
+      <Link color="inherit" href="https://material-ui.com/">
+        Water my plants
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+export default function Login() {
+  const classes = useStyles();
   const [userInput, setUserInput] = useState({ username: "", password: "" });
 
   const handleChange = (e) => {
@@ -11,41 +56,77 @@ const Login = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    axiosWithAuth()
-      .post("/api/login", userInput)
-      .then((res) => {
-        console.log(res);
-        localStorage.setItem("token", res.data.payload);
-        props.history.push("#");
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Incorrect Login try again or create an account!");
-      });
   };
+  console.log(userInput.username);
   return (
-    <div className="LoginForm">
-      <h2>Login to Water My Plants</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={userInput.username}
-          onChange={handleChange}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={userInput.password}
-          onChange={handleChange}
-        />
-        <button>Login</button>
-      </form>
-      <Link to="/Signup">{"Don't have an account? Sign Up"}</Link>
+    <div className="Signin-form">
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in to Water My Plants
+          </Typography>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              autoFocus
+              value={userInput.username}
+              onChange={handleChange}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={userInput.password}
+              onChange={handleChange}
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign In
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link href="#" variant="body2">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/Signup" variant="body2">
+                  {"Don't have an account? Sign Up"}
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </Container>
     </div>
   );
-};
-export default Login;
+}
