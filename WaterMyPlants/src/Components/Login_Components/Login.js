@@ -13,6 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { axiosWithAuth } from "../../Utils/axiosWithAuth";
+import { useHistory } from "react-router-dom";
+
 import "./Login.css";
 
 function Copyright() {
@@ -47,24 +49,43 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-export default function Login() {
+export default function Login(props) {
   const classes = useStyles();
-  const [userInput, setUserInput] = useState({ username: "", password: "" });
 
-  const handleChange = (e) => {
-    setUserInput({ ...userInput, [e.target.name]: e.target.value });
-  };
+  const history = useHistory();
 
-  const login = (e) => {
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState("");
+
+  const onLogin = (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+
+    console.log(credentials);
+
     axiosWithAuth()
-      .post("https://preston-plant.herokuapp.com/api/auth/login", userInput)
-      .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("password", res.data.password);
-        this.props.history.push("/HomeAllPlants");
-      });
+      .post(
+        `
+        https://preston-plant.herokuapp.com/api/auth/login`,
+        credentials
+      )
+      .then((response) => {
+        console.log(response);
+        localStorage.setItem("token", response.data.token);
+        console.log(response.data.token);
+        history.push("/HomeAllPlants");
+      })
+      .catch((error) => console.log("Error > ", error));
   };
-  console.log(userInput.username);
+
+  const handleChange = (event) => {
+    event.preventDefault();
+    setCredentials({ ...credentials, [event.target.name]: event.target.value });
+  };
+  console.log(credentials.password);
   return (
     <div className="Signin-form">
       <Container component="main" maxWidth="xs">
@@ -76,7 +97,7 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign in to Water My Plants
           </Typography>
-          <form className={classes.form} noValidate onSubmit={login}>
+          <form className={classes.form} noValidate onSubmit={onLogin}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -87,7 +108,7 @@ export default function Login() {
               name="username"
               autoComplete="username"
               autoFocus
-              value={userInput.username}
+              value={credentials.username}
               onChange={handleChange}
             />
             <TextField
@@ -100,7 +121,7 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
-              value={userInput.password}
+              value={credentials.password}
               onChange={handleChange}
             />
             <FormControlLabel

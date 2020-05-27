@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Signup() {
+export default function Signup(props) {
   const classes = useStyles();
   const [SignUpuserInput, setSignUpuserInput] = useState({
     username: "",
@@ -71,7 +71,7 @@ export default function Signup() {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("password", res.data.password);
         localStorage.setItem("phoneNumber", res.data.phoneNumber);
-        this.props.history.push("/HomeAllPlants");
+        props.history.push("/HomeAllPlants");
       })
       .catch((err) => console.log("Sign Up Error: ", err));
   };
