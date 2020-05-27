@@ -4,19 +4,16 @@ import Plants from "./Plants";
 
 const PlantCreation = (props) => {
 
-
-  const [plants, setPlant] = useState({
-
-    id: Date.now(),
-    plantName: " ",
-    species: " ",
-    care: " ",
-    Happiness: " ",
-    discription: " "
-
-  });
-
-  console.log(plants)
+    const [plants, setPlant] = useState([
+        {
+          id: Date.now(),
+          plantName: " ",
+          species: " ",
+          care: " ",
+          happiness: " ",
+          discription: " "
+        }
+    ]);
 
   const onChangeHandler = (event) => {
     setPlant({
@@ -29,7 +26,9 @@ const PlantCreation = (props) => {
     //To prevent page from reloading all of react content
     event.preventDefault();
     //Adding results of this PlantCreation as input into
+      console.log(props.loadPlants)
     props.loadPlants(plants)
+
   }
 
   console.log(onChangeHandler)

@@ -14,9 +14,10 @@ const Plants = (props) =>{
     <div>
         <h1> This is a list of plants! </h1>
         <div>
-            {for(plant in props.newPlants){
-                ( <Plant newPlant={plant}/> )
-            }
+            {props.newPlants.map( plant =>
+                {
+                return ( <Plant newPlant={plant}/> )
+                }
             )}
         </div>
         <Link to="/PlantCreation">

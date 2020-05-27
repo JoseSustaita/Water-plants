@@ -8,22 +8,23 @@ import Theme from "./Components/Nav_Components/Theme";
 import Login from "./Components/Login_Components/Login";
 import Signup from "./Components/Login_Components/Signup";
 import PlantCreation from "./Components/Plant_Components/PlantCreation";
+import Plants from "./Components/Plant_Components/Plants";
 import Home from "./Components/Home_Components/Home";
 import HomeAllPlants from "./Components/Home_Components/HomeAllPlants";
 import SearchAppBar from "./Components/Nav_Components/Nav";
 
 function App() {
 
-    const [newPlants, setNewPlant] = useState({
-
+    const [newPlants, setNewPlant] = useState([
+        {
         id: Date.now(),
         plantName: " Ficus ",
         species: " woody trees",
         care: " 2 weekly ",
         happiness: " comfortable ",
         description: " tall slim plant"
-
-    });
+        }
+    ]);
 
     const loadPlants = (plant) =>{
         setNewPlant(...newPlants, plant)
@@ -51,7 +52,10 @@ function App() {
             <Route exact path="/Signup" component={Signup} />
             <Route exact path="/HomeAllPlants" component={HomeAllPlants} />
             <Route exact path="/PlantCreation" component={PlantCreation} />
+            <Route exact path="/Plants" component={Plants} />
           </Switch>
+        <PlantCreation loadPlants={loadPlants}/>
+          <Plants newPlants={newPlants}/>
         </div>
       </Router>
     </ThemeProvider>
