@@ -46,14 +46,14 @@ const useStyles = makeStyles((theme) => ({
 const AllPlants = () => {
   /* State */
   const [plants, setPlantState] = useState({
-    user_id: 1,
     nickname: "",
     species: "",
-    water: 2,
   });
 
   const [errors, setErrors] = useState({
     user_id: 1,
+    nickname: "",
+    species: "",
   });
 
   const classes = useStyles();
@@ -71,18 +71,17 @@ const AllPlants = () => {
 
   const formSubmit = (e) => {
     e.preventDefualt();
-    /*
-    axiosWithAuth
-      .post(" https://preston-plant.herokuapp.com/api/plants/:id", plants)
-      .then((response) => {
-        setPost(response.data);
-        console.log("my data", response.data);
-        console.log(post);
-      })
-      .catch((error) => console.log(error.response));
 
-    setPlantState({ ...plants, [e.target.name]: e.target.value });
-  };*/
+    axios()
+      .post(
+        `
+       https://preston-plant.herokuapp.com/api/plants`
+      )
+      .then((response) => {
+        console.log("Post Response", response);
+        console.log(response.data.token);
+      })
+      .catch((error) => console.log("Error > ", error));
   };
 
   /*const validate = (e) => {
@@ -135,11 +134,7 @@ const AllPlants = () => {
         <br></br>
         <label htmlFor="plant-name" />
         Plant Name
-        <TextField
-          value={plants.nickname}
-          id="standard-basic"
-          label="Your Plant's Name "
-        />
+        <TextField value={plants.nickname} label="Your Plant's Name " />
         <br></br>
         <br></br>
         <label htmlFor="Plant-Care" />
@@ -179,6 +174,7 @@ const AllPlants = () => {
           Next
         </Button>
       </form>
+      <Plants />
     </div>
   );
 };
