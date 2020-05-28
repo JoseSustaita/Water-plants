@@ -13,10 +13,13 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import * as yup from "yup";
 import { axiosWithAuth } from "../../Utils/axiosWithAuth";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
 
 /* Schema Build  */
 const formSchema = yup.object().shape({
-  plantName: yup.string().required("Plant Name Required"),
+  nickname: yup.string().required("Plant Name Required"),
+  /*maintenance: yup.array().of(string().oneOf(['low', 'medium', 'high']),*/
 });
 
 /*For Select*/
@@ -44,8 +47,8 @@ const AllPlants = () => {
   /* State */
   const [plants, setPlantState] = useState({
     user_id: 1,
-    nickname: "Simba",
-    species: "Dandelion",
+    nickname: "",
+    species: "",
     water: 2,
   });
 
@@ -68,8 +71,9 @@ const AllPlants = () => {
 
   const formSubmit = (e) => {
     e.preventDefualt();
-    /* axiosWithAuth
-    .post(" https://preston-plant.herokuapp.com/api/plants/:id", form)
+    /*
+    axiosWithAuth
+      .post(" https://preston-plant.herokuapp.com/api/plants/:id", plants)
       .then((response) => {
         setPost(response.data);
         console.log("my data", response.data);
@@ -77,9 +81,21 @@ const AllPlants = () => {
       })
       .catch((error) => console.log(error.response));
 
-    setPlantState({ ...form, [e.target.name]: e.target.value });
+    setPlantState({ ...plants, [e.target.name]: e.target.value });
   };*/
   };
+
+  /*const validate = (e) => {
+    yup
+      .reach(formSchema, e.target.name)
+      .validate(e.target.value)
+      .then((valid) => {
+        setErrors({
+          ...errors,
+          [event.target.name]: err.errors[0],
+        });
+      });
+  };*/
 
   useEffect(() => {
     formSchema.isValid(plants).then((valid) => {
@@ -87,35 +103,8 @@ const AllPlants = () => {
     });
   }, [plants]);
 
-  /* To Form The Flex Grid Row Of Images */
-  function FormRow() {
-    return (
-      <React.Fragment>
-        <Grid item xs={4}>
-          <Paper className={classes.paper}>item</Paper>
-        </Grid>
-        <Grid item xs={4}>
-          <Paper className={classes.paper}>item</Paper>
-        </Grid>
-        <Grid item xs={4}>
-          <Paper className={classes.paper}>item</Paper>
-        </Grid>
-      </React.Fragment>
-    );
-  }
-
   return (
     <div>
-      <form onSubmit={(e) => formSubmit(e)}>
-        <label htmlFor="home-dropdown" />
-        <select>
-          <option>Happiness (Low - High)</option>
-          <option>Maintenance (High - Low)</option>
-          <option>Recently Added</option>
-          <option>Plant Name (A-Z)</option>
-        </select>
-      </form>
-
       <form onSubmit={(e) => formSubmit(e)}>
         <label htmlFor="plant-picture-grid" />
         <Grid
@@ -146,7 +135,11 @@ const AllPlants = () => {
         <br></br>
         <label htmlFor="plant-name" />
         Plant Name
-        <TextField id="standard-basic" label="Your Plant's Name " />
+        <TextField
+          value={plants.nickname}
+          id="standard-basic"
+          label="Your Plant's Name "
+        />
         <br></br>
         <br></br>
         <label htmlFor="Plant-Care" />
@@ -168,6 +161,15 @@ const AllPlants = () => {
         </FormControl>
         <br></br>
         <br></br>
+        <label htmlFor="plant-species" />
+        Species (optional)
+        <TextField
+          value={plants.species}
+          id="standard-basic"
+          label="Your Plant's Species "
+        />
+        <br></br>
+        <br></br>
         <label htmlFor="Add-Plant=Button" />
         <Button
           onChange={(e) => handleChange(e)}
@@ -177,7 +179,6 @@ const AllPlants = () => {
           Next
         </Button>
       </form>
-      <Plants />
     </div>
   );
 };
