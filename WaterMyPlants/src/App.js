@@ -3,6 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import { ThemeProvider } from "@material-ui/core/styles";
 import Theme from "./Components/Nav_Components/Theme";
+import PrivateRoute from "./Utils/PrivateRoute";
 
 //Component links
 import Login from "./Components/Login_Components/Login";
@@ -50,9 +51,22 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/Login" component={Login} />
             <Route exact path="/Signup" component={Signup} />
+<<<<<<< HEAD
             <Route exact path="/HomeAllPlants" component={HomeAllPlants} />
             <Route exact path="/PlantCreation" component={PlantCreation} />
             <Route exact path="/Plants" component={Plants} />
+=======
+            <PrivateRoute
+              exact
+              path="/HomeAllPlants"
+              component={HomeAllPlants}
+            />
+            <PrivateRoute
+              exact
+              path="/PlantCreation"
+              component={PlantCreation}
+            />
+>>>>>>> a0344626ead5dd01a908b838a3de8693193627dc
           </Switch>
         <PlantCreation loadPlants={loadPlants}/>
           <Plants newPlants={newPlants}/>
