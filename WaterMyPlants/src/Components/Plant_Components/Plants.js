@@ -10,15 +10,14 @@ import PlantCreation from "./PlantCreation";
 
 const Plants = (props) =>{
 
+    console.log(props.newPlants)
     return(
     <div>
         <h1> This is a list of plants! </h1>
         <div>
-            {props.newPlants.map( plant =>
-                {
-                return ( <Plant newPlant={plant}/> )
-                }
-            )}
+            {/* {props.newPlants.map( plant =>
+                 <Plant newPlant={plant}/>  
+            )} */}
         </div>
         <Link to="/PlantCreation">
         <button> Add Plants </button>

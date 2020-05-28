@@ -26,8 +26,10 @@ const PlantCreation = (props) => {
     //To prevent page from reloading all of react content
     event.preventDefault();
     //Adding results of this PlantCreation as input into
-      console.log(props.loadPlants)
+      console.log(props.loadPlants(plants))
     props.loadPlants(plants)
+
+    setPlant({plantName: "", species: "", care:"", happiness:"", description:"", id:Date.now()})
 
   }
 
