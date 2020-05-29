@@ -12,14 +12,10 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import * as yup from "yup";
-import { axiosWithAuth } from "../../Utils/axiosWithAuth";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
 
 /* Schema Build  */
 const formSchema = yup.object().shape({
   name: yup.string().required("Plant Name Required"),
-  /*maintenance: yup.array().of(string().oneOf(['low', 'medium', 'high']),*/
 });
 
 /*For Select*/
@@ -57,7 +53,7 @@ const AllPlants = () => {
 
   const classes = useStyles();
   const [maintenance, setMaintenance] = useState({
-    value: "low",
+    value: "",
   });
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
@@ -82,18 +78,6 @@ const AllPlants = () => {
       .then((response) => console.log(response))
       .catch((error) => console.log("Error", error));
   };
-
-  /*const validate = (e) => {
-    yup
-      .reach(formSchema, e.target.name)
-      .validate(e.target.value)
-      .then((valid) => {
-        setErrors({
-          ...errors,
-          [event.target.name]: err.errors[0],
-        });
-      });
-  };*/
 
   useEffect(() => {
     formSchema.isValid(plants).then((valid) => {
@@ -144,11 +128,9 @@ const AllPlants = () => {
         <label htmlFor="Plant-Care" />
         Maintenance
         <FormControl onChange={handleChange} className={classes.formControl}>
-          <Select name="maintenance" value={maintenance} displayEmpty>
-            <MenuItem onChange={handleChange} value={maintenance}>
-              Low
-            </MenuItem>
-            <MenuItem name="medium" onChange={handleChange} value={"medium"}>
+          <Select onChange={handleChange} name="maintenance" displayEmpty>
+            <MenuItem value={"low"}>Low</MenuItem>
+            <MenuItem onChange={handleChange} value={"medium"}>
               Medium
             </MenuItem>
             <MenuItem onChange={handleChange} value="high">
