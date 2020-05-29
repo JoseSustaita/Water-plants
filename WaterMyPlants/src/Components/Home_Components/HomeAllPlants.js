@@ -18,7 +18,7 @@ import GridListTile from "@material-ui/core/GridListTile";
 
 /* Schema Build  */
 const formSchema = yup.object().shape({
-  nickname: yup.string().required("Plant Name Required"),
+  name: yup.string().required("Plant Name Required"),
   /*maintenance: yup.array().of(string().oneOf(['low', 'medium', 'high']),*/
 });
 
@@ -51,18 +51,23 @@ const AllPlants = () => {
   });
 
   const [errors, setErrors] = useState({
-    user_id: 1,
     nickname: "",
     species: "",
   });
 
   const classes = useStyles();
-  const [maintenance, setMaintenance] = useState("");
+  const [maintenance, setMaintenance] = useState({
+    value: "low",
+  });
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
   /* Event Handlers */
   const handleChange = (event) => {
-    setMaintenance(event.target.value);
+    setMaintenance({
+      ...maintenance,
+      [event.target.name]: event.target.value,
+    });
+
     setPlantState({
       ...plants,
       [event.target.name]: event.target.value,
@@ -71,17 +76,11 @@ const AllPlants = () => {
 
   const formSubmit = (e) => {
     e.preventDefualt();
-
+    console.log("form Submitted");
     axios()
-      .post(
-        `
-       https://preston-plant.herokuapp.com/api/plants`
-      )
-      .then((response) => {
-        console.log("Post Response", response);
-        console.log(response.data.token);
-      })
-      .catch((error) => console.log("Error > ", error));
+      .post("https://preston-plant.herokuapp.com/api/plants", plants)
+      .then((response) => console.log(response))
+      .catch((error) => console.log("Error", error));
   };
 
   /*const validate = (e) => {
@@ -101,7 +100,7 @@ const AllPlants = () => {
       setButtonDisabled(!valid);
     });
   }, [plants]);
-
+  console.log(maintenance);
   return (
     <div>
       <form onSubmit={(e) => formSubmit(e)}>
@@ -134,23 +133,27 @@ const AllPlants = () => {
         <br></br>
         <label htmlFor="plant-name" />
         Plant Name
-        <TextField value={plants.nickname} label="Your Plant's Name " />
+        <TextField
+          name="nickname"
+          value={plants.nickname}
+          label="Your Plant's Name "
+          onChange={handleChange}
+        />
         <br></br>
         <br></br>
         <label htmlFor="Plant-Care" />
         Maintenance
-        <FormControl className={classes.formControl}>
-          <Select
-            value={maintenance}
-            onChange={handleChange}
-            displayEmpty
-            className={classes.selectEmpty}
-            inputProps={{ "aria-label": "Without label" }}
-          >
-            <MenuItem value="" disabled></MenuItem>
-            <MenuItem value={10}>Low</MenuItem>
-            <MenuItem value={20}>Medium</MenuItem>
-            <MenuItem value={30}>High</MenuItem>
+        <FormControl onChange={handleChange} className={classes.formControl}>
+          <Select name="maintenance" value={maintenance} displayEmpty>
+            <MenuItem onChange={handleChange} value={maintenance}>
+              Low
+            </MenuItem>
+            <MenuItem name="medium" onChange={handleChange} value={"medium"}>
+              Medium
+            </MenuItem>
+            <MenuItem onChange={handleChange} value="high">
+              High
+            </MenuItem>
           </Select>
           <FormHelperText>Select Maintenance Level</FormHelperText>
         </FormControl>
@@ -159,9 +162,10 @@ const AllPlants = () => {
         <label htmlFor="plant-species" />
         Species (optional)
         <TextField
+          name="species"
           value={plants.species}
-          id="standard-basic"
           label="Your Plant's Species "
+          onChange={handleChange}
         />
         <br></br>
         <br></br>
