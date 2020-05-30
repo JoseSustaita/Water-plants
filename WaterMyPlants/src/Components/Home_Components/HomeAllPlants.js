@@ -15,10 +15,16 @@ import * as yup from "yup";
 
 /* Schema Build  */
 const formSchema = yup.object().shape({
-  name: yup.string().required("Plant Name Required"),
+  name: yup
+    .string()
+    .min(4, "Must be 4 characters long")
+    .required("Plant Name Required"),
+
+  maintenance: yup.string(),
+  species: yup.string(),
 });
 
-/*For Select*/
+/*For material ui*/
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -41,31 +47,53 @@ const useStyles = makeStyles((theme) => ({
 
 const AllPlants = () => {
   /* State */
-  const [plants, setPlantState] = useState({
-    nickname: "",
+  const [plantsState, setPlantState] = useState({
+    name: "",
+    maintenance: "",
     species: "",
   });
 
   const [errors, setErrors] = useState({
-    nickname: "",
+    name: "",
+    maintenance: "",
     species: "",
   });
 
   const classes = useStyles();
-  const [maintenance, setMaintenance] = useState({
-    value: "",
-  });
+
   const [buttonDisabled, setButtonDisabled] = useState(true);
+
+  /* Validation */
+
+  useEffect(() => {
+    formSchema.isValid(plantsState).then((valid) => {
+      setButtonDisabled(!valid);
+    });
+  }, [plantsState]);
 
   /* Event Handlers */
   const handleChange = (event) => {
-    setMaintenance({
-      ...maintenance,
-      [event.target.name]: event.target.value,
-    });
+    event.persist();
+    yup
+      .reach(formSchema, event.target.name)
+
+      .validate(event.target.value)
+
+      .then((valid) => {
+        setErrors({
+          ...errors,
+          [event.target.name]: "",
+        });
+      })
+      .catch((err) => {
+        setErrors({
+          ...errors,
+          [event.target.name]: err.errors[0],
+        });
+      });
 
     setPlantState({
-      ...plants,
+      ...plantsState,
       [event.target.name]: event.target.value,
     });
   };
@@ -74,17 +102,13 @@ const AllPlants = () => {
     e.preventDefualt();
     console.log("form Submitted");
     axios()
-      .post("https://preston-plant.herokuapp.com/api/plants", plants)
+      .post("https://preston-plant.herokuapp.com/api/plants", plantsState)
       .then((response) => console.log(response))
       .catch((error) => console.log("Error", error));
   };
 
-  useEffect(() => {
-    formSchema.isValid(plants).then((valid) => {
-      setButtonDisabled(!valid);
-    });
-  }, [plants]);
-  console.log(maintenance);
+  console.log(plantsState);
+
   return (
     <div>
       <form onSubmit={(e) => formSubmit(e)}>
@@ -118,8 +142,8 @@ const AllPlants = () => {
         <label htmlFor="plant-name" />
         Plant Name
         <TextField
-          name="nickname"
-          value={plants.nickname}
+          name="name"
+          value={plantsState.name}
           label="Your Plant's Name "
           onChange={handleChange}
         />
@@ -127,15 +151,16 @@ const AllPlants = () => {
         <br></br>
         <label htmlFor="Plant-Care" />
         Maintenance
-        <FormControl onChange={handleChange} className={classes.formControl}>
-          <Select onChange={handleChange} name="maintenance" displayEmpty>
-            <MenuItem value={"low"}>Low</MenuItem>
-            <MenuItem onChange={handleChange} value={"medium"}>
-              Medium
-            </MenuItem>
-            <MenuItem onChange={handleChange} value="high">
-              High
-            </MenuItem>
+        <FormControl className={classes.formControl}>
+          <Select
+            onChange={handleChange}
+            value={plantsState.maintenance}
+            name="maintenance"
+            displayEmpty
+          >
+            <MenuItem value="low">Low</MenuItem>
+            <MenuItem value="medium">Medium</MenuItem>
+            <MenuItem value="high">High</MenuItem>
           </Select>
           <FormHelperText>Select Maintenance Level</FormHelperText>
         </FormControl>
@@ -145,7 +170,7 @@ const AllPlants = () => {
         Species (optional)
         <TextField
           name="species"
-          value={plants.species}
+          value={plantsState.species}
           label="Your Plant's Species "
           onChange={handleChange}
         />
