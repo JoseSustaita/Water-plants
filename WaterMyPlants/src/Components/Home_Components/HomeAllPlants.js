@@ -5,7 +5,6 @@ const AllPlants = () => {
   return (
     <div>
       <PlantList />
-      >>>>>>> master
     </div>
   );
 };
