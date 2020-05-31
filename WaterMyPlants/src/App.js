@@ -8,7 +8,7 @@ import PrivateRoute from "./Utils/PrivateRoute";
 //Component links
 import Login from "./Components/Login_Components/Login";
 import Signup from "./Components/Login_Components/Signup";
-import PlantList from "./Components/Plant_Components/PlantList";
+import Profile from "./Components/Profile_Component/Profile";
 import Home from "./Components/Home_Components/Home";
 import HomeAllPlants from "./Components/Home_Components/HomeAllPlants";
 import SearchAppBar from "./Components/Nav_Components/Nav";
@@ -28,7 +28,7 @@ function App() {
               path="/HomeAllPlants"
               component={HomeAllPlants}
             />
-            <PrivateRoute exact path="/PlantList" component={PlantList} />
+            <PrivateRoute exact path="/Profile" component={Profile} />
           </Switch>
         </div>
       </Router>
