@@ -47,6 +47,8 @@ const PlantList = (props) => {
               name={item.nickname}
               water={item.water}
               species={item.species}
+              updatePlants={setPlants}
+              id={item.id}
             />
           );
         })}
