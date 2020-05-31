@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 import { axiosWithAuth } from "../../Utils/axiosWithAuth";
 
 const PlantForm = ({ props, plants, updatePlants }) => {
@@ -13,6 +14,7 @@ const PlantForm = ({ props, plants, updatePlants }) => {
 
   const addPlant = (e) => {
     e.preventDefault();
+
     console.log(plant);
 
     axiosWithAuth()
