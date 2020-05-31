@@ -1,61 +1,189 @@
-import React, { useState } from "react";
+/* Imports */
+import React, { useState, useEffect } from "react";
 import Plants from "../Plant_Components/Plants";
+import axios from "axios";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import * as yup from "yup";
+
+/* Schema Build  */
+const formSchema = yup.object().shape({
+  name: yup
+    .string()
+    .min(4, "Must be 4 characters long")
+    .required("Plant Name Required"),
+
+  maintenance: yup.string(),
+  species: yup.string(),
+});
+
+/*For material ui*/
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+  root: { "& > *": { margin: theme.spacing(1), width: "25ch" } },
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  },
+}));
 
 const AllPlants = () => {
-  const [form, setFormState] = useState({});
+  /* State */
+  const [plantsState, setPlantState] = useState({
+    name: "",
+    maintenance: "",
+    species: "",
+  });
+
+  const [errors, setErrors] = useState({
+    name: "",
+    maintenance: "",
+    species: "",
+  });
+
+  const classes = useStyles();
+
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+
+  /* Validation */
+
+  useEffect(() => {
+    formSchema.isValid(plantsState).then((valid) => {
+      setButtonDisabled(!valid);
+    });
+  }, [plantsState]);
+
+  /* Event Handlers */
+  const handleChange = (event) => {
+    event.persist();
+    yup
+      .reach(formSchema, event.target.name)
+
+      .validate(event.target.value)
+
+      .then((valid) => {
+        setErrors({
+          ...errors,
+          [event.target.name]: "",
+        });
+      })
+      .catch((err) => {
+        setErrors({
+          ...errors,
+          [event.target.name]: err.errors[0],
+        });
+      });
+
+    setPlantState({
+      ...plantsState,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const formSubmit = (e) => {
     e.preventDefualt();
+    console.log("form Submitted");
+    axios()
+      .post("https://preston-plant.herokuapp.com/api/plants", plantsState)
+      .then((response) => console.log(response))
+      .catch((error) => console.log("Error", error));
   };
 
-  const handleClick = () => {};
+  console.log(plantsState);
+
   return (
     <div>
       <form onSubmit={(e) => formSubmit(e)}>
-        <label htmlFor="Home Dropdown" />
-        <select>
-          <option>Happiness (Low - High)</option>
-          <option>Maintenance (High - Low)</option>
-          <option>Recently Added</option>
-          <option>Plant Name (A-Z)</option>
-        </select>
-
-        <label htmlFor="Add A Plant Button" />
-        <button>Add A Plant</button>
-
-        {/* Default Plants */}
-        <label htmlFor="Planty McPlant" />
-        <img
-          src="https://images.unsplash.com/photo-1554324583-a7bc536d9836?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
-          alt="Planty McPlant"
+        <label htmlFor="plant-picture-grid" />
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="stretch"
+          spacing={0}
+        >
+          <Grid item sm={3} sm={3}>
+            <Paper className={classes.paper}>
+              <img
+                src="https://images.pexels.com/photos/970089/pexels-photo-970089.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                alt="plant1"
+              />
+            </Paper>
+          </Grid>
+          <Grid item xs={3} sm={3}>
+            <Paper className={classes.paper}>
+              <img
+                src="https://images.pexels.com/photos/1974508/pexels-photo-1974508.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+                alt="plant2"
+              />
+            </Paper>
+          </Grid>
+        </Grid>
+        <br></br>
+        <br></br>
+        <label htmlFor="plant-name" />
+        Plant Name
+        <TextField
+          name="name"
+          value={plantsState.name}
+          label="Your Plant's Name "
+          onChange={handleChange}
         />
-
-        <label htmlFor="Jolly Green Giant" />
-        <img
-          src="https://www.ourhouseplants.com/imgs-content/green-umbrella-plant-Schefflera.jpg"
-          alt="Jolly Green Giant"
+        <br></br>
+        <br></br>
+        <label htmlFor="Plant-Care" />
+        Maintenance
+        <FormControl className={classes.formControl}>
+          <Select
+            onChange={handleChange}
+            value={plantsState.maintenance}
+            name="maintenance"
+            displayEmpty
+          >
+            <MenuItem value="low">Low</MenuItem>
+            <MenuItem value="medium">Medium</MenuItem>
+            <MenuItem value="high">High</MenuItem>
+          </Select>
+          <FormHelperText>Select Maintenance Level</FormHelperText>
+        </FormControl>
+        <br></br>
+        <br></br>
+        <label htmlFor="plant-species" />
+        Species (optional)
+        <TextField
+          name="species"
+          value={plantsState.species}
+          label="Your Plant's Species "
+          onChange={handleChange}
         />
-
-        <label htmlFor="Klaus" />
-        <img
-          src="https://images.unsplash.com/photo-1559695656-b516dfde97bd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
-          alt="Klaus"
-        />
-
-        <label htmlFor="Hattie" />
-        <img src="" alt="" />
-
-        <label htmlFor="Virginia" />
-        <img
-          src="https://images.unsplash.com/photo-1587565146071-b19880f5f0ac?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"
-          alt="Virginia"
-        />
-
-        <label htmlFor="baby palm tree" />
-        <img
-          src="https://images.unsplash.com/photo-1519524725531-6e0a85b52e85?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"
-          alt="baby palm tree"
-        />
+        <br></br>
+        <br></br>
+        <label htmlFor="Add-Plant=Button" />
+        <Button
+          onChange={(e) => handleChange(e)}
+          variant="contained"
+          color="primary"
+        >
+          Next
+        </Button>
       </form>
       <Plants />
     </div>
