@@ -104,7 +104,7 @@ export default function SearchAppBar() {
               </Link>
             </MenuItem>
             <MenuItem onClick={handleClose}>
-              <Link href="/PlantCreation" variant="body2">
+              <Link href="/PlantList" variant="body2">
                 {"Add Plant"}
               </Link>
             </MenuItem>
