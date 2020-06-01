@@ -71,7 +71,7 @@ export default function Signup(props) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("password", res.data.password);
         localStorage.setItem("phoneNumber", res.data.phoneNumber);
-        props.history.push("/HomeAllPlants");
+        props.history.push("/Login");
       })
       .catch((err) => console.log("Sign Up Error: ", err));
   };
