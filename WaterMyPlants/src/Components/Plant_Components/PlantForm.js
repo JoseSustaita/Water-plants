@@ -48,9 +48,6 @@ const PlantForm = ({ props, plants, updatePlants }) => {
         </label>
         <div className="button-row">
           <button type="submit">Add New Plant</button>
-          <button type="submit">
-            <Link to="/HomeAllPlants">Home</Link>
-          </button>
         </div>
       </form>
     </div>
